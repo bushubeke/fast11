@@ -1,0 +1,17 @@
+# created by virtualenv automatically
+bin/
+include/
+lib/
+pyvenv.cfg
+openerpback/store/__pycache__
+openerpback/main/__pycache__
+openerpback/user/__pycache__
+openerpback/CRM/__pycache__
+openerpback/IT/__pycache__
+openerpback/Operations/__pycache__
+openerpback/products/__pycache__
+openerpback/tags/__pycache__
+openerpback/test/__pycache__
+openerpback/Finance/__pycache__
+openerpback/HRM/__pycache__
+openerpback/__pycache__
