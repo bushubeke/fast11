@@ -30,7 +30,7 @@ async def add_new_user(reqest:Request,user : UserModel, session : AsyncSession=D
     return UserModelAll.from_orm(User(**data))
 
 @auth.get('/user/{user_id:int}',response_model=UserModelAll)
-async def get_all_or_one_user(request : Request,user_id : int,session : AsyncSession=Depends(get_session)):
+async def get_one_user(request : Request,user_id : int,session : AsyncSession=Depends(get_session)):
 	try:
 		print(select(Order))
 		user=await session.execute(select(User).where(User.id==user_id).options(joinedload(User.roles)))
@@ -40,7 +40,7 @@ async def get_all_or_one_user(request : Request,user_id : int,session : AsyncSes
 	finally:
 		await session.close()
 @auth.get('/user',response_model=Page[UserModelAll])
-async def get_all_or_one_user(request : Request,session : AsyncSession=Depends(get_session)): 
+async def get_some_user(request : Request,session : AsyncSession=Depends(get_session)): 
 	try:
 		users=await session.execute(select(User).options(joinedload(User.roles)).order_by(User.id))
 		users=users.unique().scalars().all()
@@ -50,7 +50,7 @@ async def get_all_or_one_user(request : Request,session : AsyncSession=Depends(g
 	finally:
 		await session.close()
 @auth.get('/role/{role_id:int}',response_model=RoleModelAll)
-async def get_all_or_one_user(request : Request,role_id : int,session : AsyncSession=Depends(get_session)):
+async def get_one_user(request : Request,role_id : int,session : AsyncSession=Depends(get_session)):
 	try:
 		role=await session.execute(select(Role).where(Role.id==role_id).options(selectinload(Role.users)))
 		return RoleModelAll.from_orm(role.unique().scalars().first())
@@ -60,7 +60,7 @@ async def get_all_or_one_user(request : Request,role_id : int,session : AsyncSes
 		await session.close()
 		
 @auth.get('/role',response_model=Page[RoleModelAll])
-async def get_all_or_one_user(request : Request,session : AsyncSession=Depends(get_session)): 
+async def get_some_user(request : Request,session : AsyncSession=Depends(get_session)): 
 	try:
 			roles=await session.execute(select(Role).options(selectinload(Role.users)).order_by(Role.id))
 			roles=roles.unique().scalars().all()

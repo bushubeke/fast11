@@ -30,7 +30,7 @@ async def get_order(request:Request,session : AsyncSession=Depends(get_session))
         await session.close()
 
 @store_app.get("/order/{order_id:int}",response_model=OrderModelAll)
-async def get_order(request:Request,order_id : int,session : AsyncSession=Depends(get_session)):
+async def get_one_order(request:Request,order_id : int,session : AsyncSession=Depends(get_session)):
     try: 
         order=await session.execute(select(Order).where(Order.id==order_id))
         order=order.unique().scalars().first()
@@ -41,7 +41,7 @@ async def get_order(request:Request,order_id : int,session : AsyncSession=Depend
         await session.close()
 
 @store_app.get("/product",response_model=Page[ProductModelAll])
-async def get_order(request:Request,session : AsyncSession=Depends(get_session)):
+async def get_some_products(request:Request,session : AsyncSession=Depends(get_session)):
     try: 
         products=await session.scalars(select(Product).options(selectinload(Product.orders)).order_by(Product.id))
         products=products.all()
@@ -52,7 +52,7 @@ async def get_order(request:Request,session : AsyncSession=Depends(get_session))
         await session.close()
 
 @store_app.get("/product/{product_id:int}",response_model=ProductModelAll)
-async def get_order(request:Request,product_id : int,session : AsyncSession=Depends(get_session)):
+async def get_one_product(request:Request,product_id : int,session : AsyncSession=Depends(get_session)):
     try: 
         product=await session.execute(select(Product).where(Product.id==product_id))
         product=product.unique().scalars().first()
@@ -64,7 +64,7 @@ async def get_order(request:Request,product_id : int,session : AsyncSession=Depe
 
 
 @store_app.get("/test")
-async def get_order(request:Request,session : AsyncSession=Depends(get_session)):
+async def get_test_order(request:Request,session : AsyncSession=Depends(get_session)):
     try: 
         await check_user_role(['superuser'],'store_order')
         return JSONResponse({"Message":"Working Fine"},status_code=status.HTTP_200_OK)

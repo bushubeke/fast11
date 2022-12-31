@@ -1,7 +1,7 @@
 from datetime import datetime
 from typing import Literal,List,Optional
 from unicodedata import decimal
-from pydantic import BaseModel
+from pydantic import BaseModel,validator
 from pydantic_sqlalchemy import sqlalchemy_to_pydantic
 from store.models import Customer,Address,Product,ProductPromotion,Cart,CartItem,Order,OrderItem,Review,Collection,Promotion
 
